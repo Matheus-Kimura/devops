@@ -10,8 +10,7 @@ function App() {
     fetch(`${process.env.REACT_APP_BACKEND_URI}/sum/${n1}/${n2}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setResult(data);
+        setResult(data.result);
       })
       .catch((error) => {
         console.log(error.message)
