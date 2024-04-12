@@ -54,8 +54,11 @@ jobs:
           node-version: "20.8.1"
           registry:-url: https://https://npm.pgk.github.com/
           scope: https://npm.pgk.github.com
-      - run: npm install
-      - run: npm publish
+      - name: Install package
+        working-directory: ./frontend
+        run: npm install
+      - name: Publish package
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
