@@ -20,26 +20,13 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Login on Docker
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Docker image
+        run: docker build ./backend -t matheus-kimura/backend-fastapi:latest
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v2
-        with:
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-actions@v2
-        with:
-          context: ./backend
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      - name: Publish Docker image
+        run: |
+          docker login -u matheuskimura -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push matheus-kimura/backend-fastapi:latest
 
   create-artfact-frontend:
     runs-on: ubuntu-latest
