@@ -21,12 +21,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Docker image
-        run: docker build ./backend -t matheus-kimura/backend-fastapi:latest
+        run: docker build ./backend -t matheuskimura/backend-fastapi:latest
 
       - name: Publish Docker image
         run: |
           docker login -u matheuskimura -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push matheus-kimura/backend-fastapi:latest
+          docker push matheuskimura/backend-fastapi:latest
 
   create-artfact-frontend:
     runs-on: ubuntu-latest
