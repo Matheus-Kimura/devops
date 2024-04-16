@@ -28,27 +28,30 @@ jobs:
           docker login -u matheuskimura -p ${{ secrets.DOCKER_HUB_TOKEN }}
           docker push matheuskimura/backend-fastapi:latest
 
-  create-artfact-frontend:
+  build-artfact-frontend:
+    defaults:
+      run:
+        working-directory: frontend
     runs-on: ubuntu-latest
-            
+    
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-        
-      - name: Setup node
+      - uses: actions/checkout@v2
+      - name: Use node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20.8.1"
-          registry:-url: https://https://npm.pgk.github.com/
-          scope: https://npm.pgk.github.com
+          node-version: "20.x"
 
-      - name: Install package
-        working-directory: ./frontend
-        run: npm install
+      - run: npm ci
+      - run: npm run build
 
-      - name: Publish package
-        working-directory: ./frontend
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_GITHUB_TOKEN }}
+      - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
+     
+      - run: npm pack
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: react-frontend
+          path: ./frontend/*.tgz
+                
       
