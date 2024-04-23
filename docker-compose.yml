@@ -6,3 +6,5 @@ services:
       - "8000:8000"
     volumes:
       - "./backend:/app"
+    environment:
+      - FRONTEND_URL_CROSS=${FRONTEND_URL_CROSS}

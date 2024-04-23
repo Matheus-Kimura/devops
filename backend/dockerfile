@@ -1,6 +1,9 @@
 FROM python:3.12
 RUN pip install fastapi uvicorn
 
+ARG FRONTEND_URL_CROSS="kind-glacier-033cd360f.5.azurestaticapps.net"
+ENV FRONTEND_URL_CROSS=$FRONTEND_URL_CROSS
+
 COPY ./ /app
 WORKDIR /app
 
