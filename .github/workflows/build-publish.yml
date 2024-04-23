@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.AZURE_USERNAME }}
           password: ${{ secrets.AZURE_PASSWORD }}
       - run: |
-          'docker build backend/Dockerfile -t inspiradevops.azurecr.io/mcookie/backend-fastapi:latest'
+          'docker build ./backend -t inspiradevops.azurecr.io/mcookie/backend-fastapi:latest'
           'docker push inspiradevops.azurecr.io/mcookie/backend-fastapi:latest'
   
   deploy-backend:
