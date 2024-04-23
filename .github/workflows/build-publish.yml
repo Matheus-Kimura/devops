@@ -6,17 +6,7 @@ on:
       - 'master'
 
 jobs:
-  create-artfact-backend:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Build Docker image
-        run: docker build ./backend -t matheuskimura/backend-fastapi:latest
-  
-  publish-artfact-backend:
-    needs: create-artfact-backend
+  create-publish-artfact-backend:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -32,12 +22,12 @@ jobs:
           username: ${{ secrets.AZURE_USERNAME }}
           password: ${{ secrets.AZURE_PASSWORD }}
       - run: |
-          'docker build ./backend -t inspiradevops.azurecr.io/mcookie:${{ github.sha }}'
-          'docker push inspiradevops.azurecr.io/mcookie:${{ github.sha }}'
+          'docker build ./backend -t inspiradevops.azurecr.io/mcookie/backend-fastapi:${{ github.sha }}'
+          'docker push inspiradevops.azurecr.io/mcookie/backend-fastapi:${{ github.sha }}'
   
   deploy-backend:
     runs-on: 'ubuntu-latest'
-    needs: publish-artfact-backend
+    needs: create-publish-artfact-backend
     environment:
       name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
@@ -59,7 +49,7 @@ jobs:
           app-name: 'Calculator-Backend-Devops'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_39dc3899d8bd42f4a53c239f89f5d6b3 }}
-          images: 'inspiradevops.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_14f2a04e620e4de5806bf69190d83213 }}/mcookie/backend-fastapi:${{ github.sha }}'
+          images: 'inspiradevops.azurecr.io/mcookie/backend-fastapi:${{ github.sha }}'
 
   create-artfact-frontend:
     defaults:
