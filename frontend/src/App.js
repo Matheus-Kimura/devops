@@ -7,7 +7,7 @@ function App() {
   const [result, setResult] = useState(null);
 
   const handleSum = () => {
-    fetch(`${process.env.REACT_APP_BACKEND_URI}/sum/${n1}/${n2}`)
+    fetch(`https://calculator-backend-devops.azurewebsites.net/sum/${n1}/${n2}`)
       .then((res) => res.json())
       .then((data) => {
         setResult(data.result);
