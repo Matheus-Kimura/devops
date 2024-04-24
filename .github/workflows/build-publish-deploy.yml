@@ -81,7 +81,7 @@ jobs:
       run:
         working-directory: frontend
     runs-on: ubuntu-latest
-    needs: create-publish-artfact-backend
+    needs: create-publish-artfact-frontend
     
     steps:
       - uses: actions/checkout@v2
