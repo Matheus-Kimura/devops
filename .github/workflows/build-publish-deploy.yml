@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'master'
+      - 'test'
 
 jobs:
   create-publish-artfact-backend:
@@ -35,17 +36,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Log in to registry
-        uses: docker/login-action@v2
-        with:
-          registry: https://inspiradevops.azurecr.io/
-          username: ${{ secrets.AzureAppService_ContainerUsername_14f2a04e620e4de5806bf69190d83213 }}
-          password: ${{ secrets.AzureAppService_ContainerPassword_bc7d3c944a9c40f2bc108af35273a106 }}
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
+          login-server: inspiradevops.azurecr.io
+          username: ${{ secrets.AZURE_USERNAME }}
+          password: ${{ secrets.AZURE_PASSWORD }}
           app-name: 'Calculator-Backend-Devops'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_39dc3899d8bd42f4a53c239f89f5d6b3 }}
@@ -74,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v4.3.1
         with:
           name: react-frontend
-          path: ./frontend/build
+          path: ./frontend/build/
 
   deploy-artfact-frontend:
     defaults:
@@ -85,13 +82,6 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-
-      - name: Use node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20.x"
-
-      - run: npm ci
 
       - name: Download Artifact
         uses: actions/download-artifact@v3
