@@ -36,11 +36,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: azure/docker-login@v1
-        with:
-          login-server: inspiradevops.azurecr.io
-          username: ${{ secrets.AZURE_USERNAME }}
-          password: ${{ secrets.AZURE_PASSWORD }}
+      - name: Docker images list
+        run: docker images ls
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
