@@ -36,9 +36,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Docker images list
-        run: docker images ls
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -46,7 +43,7 @@ jobs:
           app-name: 'Calculator-Backend-Devops'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_39dc3899d8bd42f4a53c239f89f5d6b3 }}
-          images: 'inspiradevops.azurecr.io/mcookie-backend-fastapi:${{ github.sha }}'
+          images: 'inspiradevops.azurecr.io/mcookie/backend-fastapi:${{ github.sha }}'
 
   create-publish-artfact-frontend:
     defaults:
