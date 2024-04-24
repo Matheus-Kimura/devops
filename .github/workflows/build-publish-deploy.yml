@@ -78,9 +78,6 @@ jobs:
           path: ./frontend/build/
 
   deploy-artfact-frontend:
-    defaults:
-      run:
-        working-directory: frontend
     runs-on: ubuntu-latest
     needs: create-publish-artfact-frontend
     
