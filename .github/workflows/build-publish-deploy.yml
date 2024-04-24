@@ -36,13 +36,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+      - uses: azure/docker-login@v1
         with:
           login-server: inspiradevops.azurecr.io
           username: ${{ secrets.AZURE_USERNAME }}
           password: ${{ secrets.AZURE_PASSWORD }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
           app-name: 'Calculator-Backend-Devops'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_39dc3899d8bd42f4a53c239f89f5d6b3 }}
