@@ -34,8 +34,6 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - uses: actions/checkout@v2
-
       - name: Login Docker image
         uses: azure/docker-login@v1
         with:
@@ -86,7 +84,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: react-frontend
-      
-      - name: Test artifact
-        run: ls -R
-        
+
+      - name: Build And Deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_KIND_GLACIER_033CD360F }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/frontend"
+          output_location: "/build"
+          skip_api_build: "true"
