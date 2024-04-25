@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'master'
-      - 'test'
 
 jobs:
   create-publish-artfact-backend:
@@ -84,7 +83,7 @@ jobs:
         with:
           submodules: true
           lfs: false
-          
+
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
