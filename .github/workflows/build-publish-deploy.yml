@@ -80,6 +80,11 @@ jobs:
     needs: create-publish-artfact-frontend
     
     steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+          
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
